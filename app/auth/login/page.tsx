@@ -31,28 +31,26 @@ export default function SignIn() {
       }
 
       // Use Supabase GoTrue REST endpoint for password sign-in.
-      console.log('Supabase env', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey });
-      // Use form-encoded body required by GoTrue token endpoint.
       const tokenUrl = `${supabaseUrl.replace(/\/$/, '')}/auth/v1/token`;
-      const params = new URLSearchParams();
-      params.set('grant_type', 'password');
-      params.set('email', email.trim());
-      params.set('password', password);
-
       const resp = await fetch(tokenUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Accept: 'application/json',
+          'Content-Type': 'application/json',
           apikey: supabaseKey,
         },
-        body: params.toString(),
+        body: JSON.stringify({
+          grant_type: 'password',
+          email: email.trim(),
+          password,
+        }),
       });
 
       const body = await resp.json();
+      console.log('Supabase response:', { status: resp.status, body });
 
       if (!resp.ok) {
-        const msg = body?.error_description || body?.error || body?.message || 'Unable to sign in';
+        const msg = body?.error_description || body?.error || body?.message || JSON.stringify(body) || 'Unable to sign in';
+        console.error('Login error:', msg);
         setError(Array.isArray(msg) ? msg.join(', ') : String(msg));
         setLoading(false);
         return;
