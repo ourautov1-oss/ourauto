@@ -1,23 +1,14 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { mockCars } from '@/app/lib/cars';
 import Link from 'next/link';
 import { FuelIcon, TransmissionIcon } from '@/app/components/icons';
 
-export default function CarDetailsPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
-  const car = mockCars.find((c) => c.id === params.id);
-
-  useEffect(() => {
-    // Check if user is logged in (in a real app, check localStorage or auth context)
-    // For now, this is a placeholder
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (!isLoggedIn) {
-      router.push('/auth/login');
-    }
-  }, [router]);
+export default async function CarDetailsPage({ 
+  params 
+}: { 
+  params: { id: string } 
+}) {
+  const { id } = params;
+  const car = mockCars.find((c) => c.id === id);
 
   if (!car) {
     return (
