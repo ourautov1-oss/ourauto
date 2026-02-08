@@ -1,0 +1,96 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { CarCard } from '@/app/components/car-card';
+import { mockCars, getNearestCity } from '@/app/lib/cars';
+import type { Car } from '@/app/lib/cars';
+
+export function CarListing() {
+  const [cars, setCars] = useState<Car[]>([]);
+  const [nearestCity, setNearestCity] = useState<string>('Mumbai');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Try to get user location
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const city = getNearestCity(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          setNearestCity(city);
+          filterCarsByCity(city);
+          setLoading(false);
+        },
+        () => {
+          // If location permission denied, show default city
+          filterCarsByCity(nearestCity);
+          setLoading(false);
+        }
+      );
+    } else {
+      // Geolocation not supported
+      filterCarsByCity(nearestCity);
+      setLoading(false);
+    }
+  }, []);
+
+  const filterCarsByCity = (city: string) => {
+    // First show cars from the selected city, then others
+    const cityCars = mockCars.filter((car) => car.location === city);
+    const otherCars = mockCars.filter((car) => car.location !== city);
+    setCars([...cityCars, ...otherCars]);
+  };
+
+  if (loading) {
+    return (
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            className="animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-800"
+            style={{ paddingBottom: '100%', aspectRatio: '4/3' }}
+          >
+            <div className="h-full w-full rounded-xl bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200 dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-800" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (cars.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-200 py-16 dark:border-zinc-800">
+        <div className="text-5xl mb-4">🚗</div>
+        <h3 className="text-lg font-semibold text-black dark:text-white">
+          No cars available at the moment
+        </h3>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          Check back soon for new listings from our network
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-black dark:text-white">
+            Luxury Dealers Near {nearestCity}
+          </h2>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+            {cars.length} premium vehicles available
+          </p>
+        </div>
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {cars.map((car) => (
+          <CarCard key={car.id} car={car} />
+        ))}
+      </div>
+    </div>
+  );
+}
