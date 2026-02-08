@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/app/lib/supabase';
 
 export default function SignIn() {
   const router = useRouter();
@@ -21,43 +22,21 @@ export default function SignIn() {
     setLoading(true);
 
     try {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !supabaseKey) {
-        setError('Auth is not configured. Missing environment variables.');
-        setLoading(false);
-        return;
-      }
-
-      // Use Supabase GoTrue REST endpoint for password sign-in.
-      const tokenUrl = `${supabaseUrl.replace(/\/$/, '')}/auth/v1/token`;
-      const resp = await fetch(tokenUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: supabaseKey,
-        },
-        body: JSON.stringify({
-          grant_type: 'password',
-          email: email.trim(),
-          password,
-        }),
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
       });
 
-      const body = await resp.json();
-      console.log('Supabase response:', { status: resp.status, body });
-
-      if (!resp.ok) {
-        const msg = body?.error_description || body?.error || body?.message || JSON.stringify(body) || 'Unable to sign in';
-        console.error('Login error:', msg);
-        setError(Array.isArray(msg) ? msg.join(', ') : String(msg));
+      if (error) {
+        setError(error.message || 'Unable to sign in');
         setLoading(false);
         return;
       }
 
-      // On success, redirect to home. Session handling is managed by Supabase SDK on the next steps.
-      router.push('/');
+      if (data.session) {
+        // On success, redirect to home
+        router.push('/');
+      }
     } catch (err: any) {
       setError(err?.message || 'An unexpected error occurred');
     } finally {

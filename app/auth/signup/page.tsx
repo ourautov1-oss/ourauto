@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/app/lib/supabase';
 
 export default function SignUp() {
   const router = useRouter();
@@ -37,25 +38,10 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !supabaseKey) {
-        setError('Auth is not configured. Missing environment variables.');
-        setLoading(false);
-        return;
-      }
-
-      // Use Supabase GoTrue REST endpoint to avoid adding a runtime dependency.
-      const resp = await fetch(`${supabaseUrl.replace(/\/$/, '')}/auth/v1/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: supabaseKey,
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
           data: {
             dealer_name: dealerName.trim(),
             owner_name: ownerName.trim(),
@@ -63,20 +49,19 @@ export default function SignUp() {
             city: city.trim(),
             role: 'dealer',
           },
-        }),
+        },
       });
 
-      const body = await resp.json();
-
-      if (!resp.ok) {
-        const msg = body?.message || body?.error_description || 'Unable to create account';
-        setError(Array.isArray(msg) ? msg.join(', ') : String(msg));
+      if (error) {
+        setError(error.message || 'Unable to create account');
         setLoading(false);
         return;
       }
 
-      // On success, redirect to home. Supabase may return user/session.
-      router.push('/');
+      if (data.user) {
+        // On success, redirect to home
+        router.push('/');
+      }
     } catch (err: any) {
       setError(err?.message || 'An unexpected error occurred');
     } finally {
