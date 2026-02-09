@@ -30,7 +30,7 @@ export default function EditCarPage({ params }: { params: { id: string } }) {
   if (!session?.id) return <div>Not authorized</div>;
   if (!car || car.dealer_id !== session.id) return <div>Car not found or not allowed</div>;
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(/* formData: FormData */) {
     // TODO: handle images update
     // await updateCar(params.id, ...); // Not implemented
     redirect("/dealer/cars");

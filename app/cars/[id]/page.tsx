@@ -8,8 +8,8 @@ import { Profile } from '@/app/lib/types';
 
 export default async function CarDetailPage({ params }: { params: { id: string } }) {
   const car = null;
-  let dealer: Profile | null = null;
-  let dealerCarsCount = 0;
+  const dealer: Profile | null = null;
+  const dealerCarsCount = 0;
 
   let carContent;
   if (!car) {

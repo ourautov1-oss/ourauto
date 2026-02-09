@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase';
-import type { UserRole } from '@/app/lib/types';
 
 export default function SignUp() {
   const router = useRouter();

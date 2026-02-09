@@ -1,16 +1,16 @@
 "use client";
+import { addCar } from "./actions";
 export default function AddCarPage() {
-  // Import the server action
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // @ts-expect-error Async Server Action import for form action
-  const { addCar } = require("./actions");
+  async function handleAddCar(formData: FormData) {
+    await addCar(formData);
+  }
   return (
     <section className="flex flex-col items-center justify-center min-h-[60vh]">
       <div className="mx-auto max-w-7xl px-4 py-10 w-full flex justify-center">
         <div className="w-full max-w-xl rounded-2xl bg-card shadow-lg border border-border p-8">
           <h1 className="text-3xl font-bold text-foreground mb-2 tracking-tight">Add a New Car</h1>
           <p className="text-muted-foreground mb-6">Fill in the details below to list a new car for sale. All fields are required.</p>
-          <form action={addCar} className="space-y-5">
+          <form action={handleAddCar} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">Make</label>
@@ -44,4 +44,5 @@ export default function AddCarPage() {
         </div>
       </div>
     </section>
-  );
+	);
+}

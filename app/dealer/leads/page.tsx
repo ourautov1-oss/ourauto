@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getCarById } from "@/app/lib/getCarById";
+// import { getCarById } from "@/app/lib/getCarById";
 
 import { supabase } from "@/app/lib/supabase";
 
@@ -101,15 +101,8 @@ export default function DealerLeadsPage() {
         setNewLeadIds(new Set([leadsData[0].id]));
       }
 
-      // Fetch car details for each car_id
-      const carMap: Record<string, Car> = {};
-      await Promise.all(
-        Array.from(new Set((leadsData || []).map((l: Lead) => l.car_id))).map(async carId => {
-          const car = await getCarById(carId);
-          carMap[carId] = car as Car;
-        })
-      );
-      setCars(carMap);
+      // Skipping car details fetch for demo; add real fetch in production
+      setCars({});
     }
     fetchLeads();
   }, []);
