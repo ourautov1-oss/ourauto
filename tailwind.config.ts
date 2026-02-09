@@ -1,4 +1,4 @@
-export default {
+const tailwindConfig = {
   darkMode: "class",
   content: [
     "./app/**/*.{ts,tsx}",
@@ -9,3 +9,5 @@ export default {
   },
   plugins: [],
 };
+
+export default tailwindConfig;

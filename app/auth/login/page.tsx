@@ -34,11 +34,15 @@ export default function SignIn() {
       }
 
       if (data.session) {
-        // On success, redirect to home
-        router.push('/');
+        // Get user profile and redirect to dealer dashboard
+        router.push('/dealer/dashboard');
       }
-    } catch (err: any) {
-      setError(err?.message || 'An unexpected error occurred');
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }

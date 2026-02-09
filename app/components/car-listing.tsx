@@ -3,38 +3,12 @@
 import { useEffect, useState } from 'react';
 import { CarCard } from '@/app/components/car-card';
 import { mockCars, getNearestCity } from '@/app/lib/cars';
-import type { Car } from '@/app/lib/cars';
+import type { Car } from '@/app/lib/types';
 
 export function CarListing() {
   const [cars, setCars] = useState<Car[]>([]);
   const [nearestCity, setNearestCity] = useState<string>('Mumbai');
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Try to get user location
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const city = getNearestCity(
-            position.coords.latitude,
-            position.coords.longitude
-          );
-          setNearestCity(city);
-          filterCarsByCity(city);
-          setLoading(false);
-        },
-        () => {
-          // If location permission denied, show default city
-          filterCarsByCity(nearestCity);
-          setLoading(false);
-        }
-      );
-    } else {
-      // Geolocation not supported
-      filterCarsByCity(nearestCity);
-      setLoading(false);
-    }
-  }, []);
 
   const filterCarsByCity = (city: string) => {
     // First show cars from the selected city, then others
@@ -42,6 +16,38 @@ export function CarListing() {
     const otherCars = mockCars.filter((car) => car.location !== city);
     setCars([...cityCars, ...otherCars]);
   };
+
+
+  // Effect to get user location, set nearest city, and filter cars
+  useEffect(() => {
+    let isMounted = true;
+    const handleCity = (city: string) => {
+      if (!isMounted) return;
+      setNearestCity(city);
+      filterCarsByCity(city);
+      setLoading(false);
+    };
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const city = getNearestCity(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          handleCity(city);
+        },
+        () => {
+          // If location permission denied, show default city
+          handleCity('Mumbai');
+        }
+      );
+    } else {
+      handleCity('Mumbai');
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -64,10 +70,10 @@ export function CarListing() {
       <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-200 py-16 dark:border-zinc-800">
         <div className="text-5xl mb-4">🚗</div>
         <h3 className="text-lg font-semibold text-black dark:text-white">
-          No cars available at the moment
+          New verified cars added daily
         </h3>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          Check back soon for new listings from our network
+          OurAuto — trusted car marketplace for real buyers & dealers
         </p>
       </div>
     );

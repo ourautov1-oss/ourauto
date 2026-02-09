@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase';
+import type { UserRole } from '@/app/lib/types';
 
 export default function SignUp() {
   const router = useRouter();
   const [dealerName, setDealerName] = useState('');
   const [ownerName, setOwnerName] = useState('');
+  // Buyer logic removed
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [city, setCity] = useState('');
@@ -25,6 +27,7 @@ export default function SignUp() {
     e.preventDefault();
     setError(null);
 
+    // Only dealer registration allowed
     if (!dealerName.trim()) return setError('Dealer / Showroom Name is required');
     if (!ownerName.trim()) return setError('Owner Name is required');
     if (!email.trim()) return setError('Email Address is required');
@@ -41,15 +44,6 @@ export default function SignUp() {
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
-        options: {
-          data: {
-            dealer_name: dealerName.trim(),
-            owner_name: ownerName.trim(),
-            mobile: cleanMobile ? `+91${cleanMobile}` : undefined,
-            city: city.trim(),
-            role: 'dealer',
-          },
-        },
       });
 
       if (error) {
@@ -59,11 +53,24 @@ export default function SignUp() {
       }
 
       if (data.user) {
-        // On success, redirect to home
-        router.push('/');
+        // Insert dealer profile, force role = dealer
+        await supabase.from('profiles').insert({
+          id: data.user.id,
+          role: 'dealer',
+          full_name: dealerName.trim(),
+          dealer_name: dealerName.trim(),
+          owner_name: ownerName.trim(),
+          phone: cleanMobile ? `+91${cleanMobile}` : undefined,
+          city: city.trim(),
+        });
+        router.push('/dealer/dashboard');
       }
-    } catch (err: any) {
-      setError(err?.message || 'An unexpected error occurred');
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }
@@ -74,7 +81,7 @@ export default function SignUp() {
       <div className="w-full max-w-md space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold text-black dark:text-white">Create Dealer Account</h1>
-          <p className="text-zinc-600 dark:text-zinc-400">Join OurAuto’s verified dealer network</p>
+          <p className="text-zinc-600 dark:text-zinc-400">Register as a verified car dealer on OurAuto</p>
         </div>
 
         <form
@@ -82,6 +89,9 @@ export default function SignUp() {
           className="rounded-lg border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-900"
         >
           <div className="space-y-4">
+            {/* Dealer registration only, role fixed as dealer */}
+
+            {/* Dealer Fields */}
             <div>
               <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Dealer / Showroom Name</label>
               <input
@@ -91,7 +101,6 @@ export default function SignUp() {
                 required
               />
             </div>
-
             <div>
               <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Owner Name</label>
               <input
@@ -101,6 +110,9 @@ export default function SignUp() {
                 required
               />
             </div>
+
+            {/* Buyer Fields */}
+            {/* Buyer fields removed */}
 
             <div>
               <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Email Address</label>

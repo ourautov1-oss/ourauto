@@ -1,4 +1,5 @@
-import { Fuel, Cog } from 'lucide-react';
+
+"use client";
 
 const fuelIcons: Record<string, React.ReactNode> = {
   'petrol': '⛽',
