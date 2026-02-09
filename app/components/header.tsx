@@ -1,11 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useTheme } from '@/app/providers';
-import { Moon, Sun } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 export function Header() {
-  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200/50 bg-white/80 backdrop-blur-md dark:border-zinc-800/50 dark:bg-black/80">
@@ -21,17 +19,7 @@ export function Header() {
         {/* Right section */}
         <div className="flex items-center gap-3 sm:gap-4">
           {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? (
-              <Moon className="h-5 w-5" />
-            ) : (
-              <Sun className="h-5 w-5" />
-            )}
-          </button>
+          <ThemeToggle />
 
           {/* Sign In */}
           <Link

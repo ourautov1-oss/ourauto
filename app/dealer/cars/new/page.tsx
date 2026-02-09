@@ -44,15 +44,62 @@ export default function AddCarPage() {
     <div className="p-6 max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Add New Car</h1>
       <form action={handleSubmit} className="space-y-4">
-        <input name="title" placeholder="Title" required className="w-full border p-2 rounded" />
-        <input name="brand" placeholder="Brand" required className="w-full border p-2 rounded" />
-        <input name="year" type="number" placeholder="Year" required className="w-full border p-2 rounded" />
-        <input name="fuel" placeholder="Fuel" className="w-full border p-2 rounded" />
-        <input name="transmission" placeholder="Transmission" className="w-full border p-2 rounded" />
-        <input name="city" placeholder="City" className="w-full border p-2 rounded" />
-        <input name="price" type="number" placeholder="Price" className="w-full border p-2 rounded" />
+        <input name="title" placeholder="Title" required className="w-full border rounded-md px-4 py-3 bg-black text-white" />
+        {/* Brand Select */}
+        <select name="brand" required className="w-full border rounded-md px-4 py-3 bg-black text-white">
+          <option value="">Select Brand</option>
+          <option>Maruti</option>
+          <option>Hyundai</option>
+          <option>Honda</option>
+          <option>Tata</option>
+          <option>Mahindra</option>
+          <option>Toyota</option>
+          <option>Kia</option>
+        </select>
+        {/* Year Select */}
+        <select name="year" required className="w-full border rounded-md px-4 py-3 bg-black text-white">
+          <option value="">Select Year</option>
+          {Array.from({ length: 15 }).map((_, i) => {
+            const year = new Date().getFullYear() - i;
+            return <option key={year}>{year}</option>;
+          })}
+        </select>
+        {/* Fuel Type Select */}
+        <select name="fuel" className="w-full border rounded-md px-4 py-3 bg-black text-white">
+          <option value="">Fuel Type</option>
+          <option>Petrol</option>
+          <option>Diesel</option>
+          <option>CNG</option>
+          <option>Electric</option>
+          <option>Hybrid</option>
+        </select>
+        {/* Transmission Select */}
+        <select name="transmission" className="w-full border rounded-md px-4 py-3 bg-black text-white">
+          <option value="">Transmission</option>
+          <option>Manual</option>
+          <option>Automatic</option>
+        </select>
+        {/* City Select */}
+        <select name="city" className="w-full border rounded-md px-4 py-3 bg-black text-white">
+          <option value="">Select City</option>
+          <option>Ahmedabad</option>
+          <option>Surat</option>
+          <option>Vadodara</option>
+          <option>Rajkot</option>
+          <option>Mumbai</option>
+          <option>Pune</option>
+          <option>Delhi</option>
+          <option>Bangalore</option>
+        </select>
+        {/* Price Input (numeric) */}
+        <input
+          name="price"
+          type="number"
+          placeholder="Price (₹)"
+          className="w-full border rounded-md px-4 py-3 bg-black text-white"
+        />
         <label className="block font-medium">Car Images (1–5):</label>
-        <input name="images" type="file" accept="image/*" multiple required className="w-full border p-2 rounded" max={5} />
+        <input name="images" type="file" accept="image/*" multiple required className="w-full border rounded-md px-4 py-3 bg-black text-white" max={5} />
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Add Car</button>
       </form>
     </div>

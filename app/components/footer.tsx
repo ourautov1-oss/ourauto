@@ -8,10 +8,14 @@ export default function Footer() {
       <div className="text-lg font-semibold text-zinc-800 dark:text-zinc-100 mb-1">
         OurAuto © 2026
       </div>
-      <div className="text-sm text-zinc-600 dark:text-zinc-400">
-        Trusted marketplace for used cars<br />
-        Built for buyers & dealers
-      </div>
+        <div className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-lg font-semibold">
+            Turn inventory into sales.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Verified buyers. Real leads. Zero commission.
+          </p>
+        </div>
     </footer>
   );
 }

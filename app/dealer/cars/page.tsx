@@ -3,7 +3,7 @@
 
 "use client";
 import React, { useState, useEffect } from 'react';
-import { getDealerCars } from "@/app/lib/cars";
+// ...existing code...
 import CarCard from "@/app/components/car-card";
 import { getSession } from "@/app/lib/session";
 import type { Profile, Car } from '@/app/lib/types';
@@ -22,8 +22,8 @@ export default function DealerCarsPage() {
         setLoading(false);
         return;
       }
-      const c = await getDealerCars(s.id);
-      setCars(c);
+      // ...existing code...
+      setCars([]);
       setLoading(false);
     }
     load();

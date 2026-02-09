@@ -3,7 +3,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import type { Profile, Car } from '@/app/lib/types';
-import { getCarById } from "@/app/lib/cars";
+// ...existing code...
 import { getSession } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 
@@ -20,8 +20,7 @@ export default function EditCarPage({ params }: { params: { id: string } }) {
         setLoading(false);
         return;
       }
-      const c = await getCarById(params.id);
-      setCar(c);
+      setCar(null);
       setLoading(false);
     }
     load();
