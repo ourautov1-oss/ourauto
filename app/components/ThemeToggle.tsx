@@ -8,8 +8,10 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Avoid setState in effect for SSR hydration warning; always render button
+    setMounted(true);
   }, []);
+
+  if (!mounted) return null;
 
   const isDark = resolvedTheme === "dark";
 
@@ -18,7 +20,7 @@ export default function ThemeToggle() {
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         onClick={() => setTheme(isDark ? "light" : "dark")}
         className={
-          `inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium shadow-sm transition-colors
+          `inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold shadow-sm transition-colors
           bg-secondary text-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 dark:focus:ring-offset-black`
         }
       >

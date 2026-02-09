@@ -28,16 +28,15 @@ export function CarCard({ car }: CarCardProps) {
   };
 
   return (
-    <div className="group overflow-hidden rounded-xl border border-border bg-card shadow-md transition-all duration-300 hover:shadow-xl dark:bg-card">
+    <div className="rounded-2xl overflow-hidden border border-border bg-card shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       {/* Image Container */}
-      <div className="relative aspect-video overflow-hidden bg-muted dark:bg-muted">
-        {/* Use Next.js Image for optimization */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden hover:scale-[1.02] transition-transform duration-300 bg-muted dark:bg-muted">
         <Image
           src={Array.isArray(car.images) && car.images.length > 0 ? car.images[0] : "/placeholder-car.png"}
           alt={`${car.brand} ${car.model}`}
           width={400}
           height={225}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="aspect-[4/3] w-full object-cover"
           loading="lazy"
         />
       </div>
@@ -52,31 +51,36 @@ export function CarCard({ car }: CarCardProps) {
           <p className="text-base text-muted-foreground font-medium">{car.year}</p>
         </div>
 
+        {/* Price */}
+        <p className="text-xl font-semibold tracking-tight">
+          ₹{car.price?.toLocaleString()}
+        </p>
+
         {/* Icons Row */}
         <div className="flex items-center gap-4 py-3 border-y border-border">
           <div className="flex items-center gap-2">
             <FuelIcon type={car.fuelType ?? ''} />
-            <span className="text-xs uppercase tracking-wide text-muted-foreground">
+            <span className="text-sm uppercase tracking-wide text-muted-foreground">
               {car.fuelType}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <TransmissionIcon type={car.transmission ?? ''} />
-            <span className="text-xs uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
+            <span className="text-sm uppercase tracking-wide text-muted-foreground">
               {car.transmission}
             </span>
           </div>
         </div>
 
         {/* Location */}
-        <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <p className="text-base text-muted-foreground">
           📍 {car.location}
         </p>
 
         {/* Share Button */}
         <button
           onClick={handleShare}
-          className="block w-full rounded-md bg-black text-white dark:bg-white dark:text-black px-4 py-2 mb-2 text-center text-sm font-semibold transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+          className="block w-full rounded-xl bg-primary text-primary-foreground px-5 py-2.5 w-full font-semibold shadow-md transition-colors hover:bg-foreground/90 hover:text-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 dark:focus:ring-offset-black mb-2 active:scale-95"
         >
           🔗 Share Car
         </button>
@@ -84,7 +88,7 @@ export function CarCard({ car }: CarCardProps) {
         {/* CTA Button */}
         <Link
           href={`/cars/${car.id}`}
-          className="block w-full rounded-md border border-black dark:border-white bg-transparent text-black dark:text-white px-4 py-2 text-center text-sm font-semibold transition-colors hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+          className="block w-full rounded-xl border border-primary bg-transparent text-primary px-5 py-2.5 text-center font-semibold transition-colors hover:bg-primary hover:text-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 dark:focus:ring-offset-black active:scale-95"
         >
           View Details
         </Link>

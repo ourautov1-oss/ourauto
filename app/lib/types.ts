@@ -22,6 +22,9 @@ export type DealerProfile = {
   city: string;
   verified: boolean;
 };
+export type TenantContext = {
+  tenantId: string;
+};
 export interface Profile {
   id: string;
   role: UserRole;

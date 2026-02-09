@@ -7,39 +7,26 @@ import ThemeToggle from './ThemeToggle';
 export function Header() {
 
   return (
-    <header className="border-b bg-white dark:bg-slate-950 sticky top-0 z-40 w-full shadow-md transition-colors duration-300">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="OurAuto"
-            width={120}
-            height={40}
-            priority
-            className="h-8 w-auto dark:brightness-110"
-          />
+        <Link href="/" className="text-xl font-semibold tracking-tight">
+          <span className="text-primary">Our</span>
+          <span className="text-foreground">Auto</span>
         </Link>
 
         {/* Right section */}
-        <div className="flex items-center gap-2 sm:gap-4">
-          {/* Theme Toggle */}
+        <div className="flex items-center gap-4">
           <ThemeToggle />
-
-          {/* Sign In */}
-          <Link
-            href="/auth/login"
-            className="hidden rounded-lg border border-border bg-background px-4 py-2 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:inline-block"
-          >
-            Sign In
+          <Link href="/auth/login">
+            <Button variant="ghost" className="rounded-xl active:scale-95">
+              Login
+            </Button>
           </Link>
-
-          {/* Create Account (Primary CTA) */}
-          <Link
-            href="/auth/signup"
-            className="rounded-lg bg-primary px-4 py-2 text-base font-semibold text-primary-foreground shadow-md transition-colors hover:bg-foreground/90 hover:text-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-          >
-            Create Account
+          <Link href="/dealer/add-car">
+            <Button className="rounded-xl px-5 py-2 text-base font-semibold shadow-md hover:shadow-lg transition-all duration-300 active:scale-95">
+              List Your Car
+            </Button>
           </Link>
         </div>
       </div>

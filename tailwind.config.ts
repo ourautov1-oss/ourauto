@@ -5,7 +5,12 @@ const tailwindConfig = {
     "./app/components/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      borderRadius: {
+        xl: "1rem",
+        "2xl": "1.5rem",
+      },
+    },
   },
   plugins: [],
 };

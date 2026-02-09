@@ -9,12 +9,12 @@ export function CarListing() {
   // Demo: No cars, no loading, no city logic. Add real logic for production.
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-200 py-16 dark:border-zinc-800">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card shadow-sm py-16">
       <div className="text-5xl mb-4">🚗</div>
-      <h3 className="text-lg font-semibold text-black dark:text-white">
+      <h3 className="text-xl font-semibold text-foreground">
         New verified cars added daily
       </h3>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="mt-4 text-base text-muted-foreground max-w-md text-center">
         OurAuto — trusted car marketplace for real buyers & dealers
       </p>
     </div>

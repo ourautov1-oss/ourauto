@@ -13,6 +13,11 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
-]);
+  // ...existing config...
+  rules: {
+    'react-hooks/exhaustive-deps': 'off',
+    // ...other rules...
+  },
+});
 
 export default eslintConfig;

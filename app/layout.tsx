@@ -1,10 +1,13 @@
+
 import type { Metadata } from "next";
 import './globals.css';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { Providers } from './providers';
+import { AppThemeProvider } from './providers';
 import { Header } from '@/app/components/header';
-
 import Footer from '@/app/components/footer';
+
+export const runtime = "nodejs";
+export const experimental_ppr = true;
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -53,17 +56,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body
-        className="bg-background text-foreground min-h-screen"
-      >
-        <Providers>
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}> 
+      <body className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20">
+        <AppThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Header />
           <main className="mx-auto max-w-7xl px-6 py-12 w-full">
             {children}
           </main>
           <Footer />
-        </Providers>
+        </AppThemeProvider>
         {/* Toast notifications */}
         <div id="toast-root">
           {/* Toast notifications: Toaster must be rendered in a client component */}
