@@ -76,7 +76,7 @@ export function CarCard({ car }: CarCardProps) {
         {/* Share Button */}
         <button
           onClick={handleShare}
-          className="block w-full rounded-lg bg-green-600 py-2 mb-2 text-center text-sm font-semibold text-white transition-colors hover:bg-green-700"
+          className="block w-full rounded-md bg-black text-white dark:bg-white dark:text-black px-4 py-2 mb-2 text-center text-sm font-semibold transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
         >
           🔗 Share Car
         </button>
@@ -84,7 +84,7 @@ export function CarCard({ car }: CarCardProps) {
         {/* CTA Button */}
         <Link
           href={`/cars/${car.id}`}
-          className="block w-full rounded-lg bg-black py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+          className="block w-full rounded-md border border-black dark:border-white bg-transparent text-black dark:text-white px-4 py-2 text-center text-sm font-semibold transition-colors hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
         >
           View Details
         </Link>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import './globals.css';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { ThemeProvider } from '@/app/providers';
+import { Providers } from './providers';
 import { Header } from '@/app/components/header';
 
 import Footer from '@/app/components/footer';
@@ -54,12 +54,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider>
+      <body
+        className={`min-h-screen bg-background text-foreground ${geistSans.variable} ${geistMono.variable} antialiased transition-colors`}
+      >
+        <Providers>
           <Header />
-          {children}
+          <main className="mx-auto w-full max-w-5xl flex-1 px-4 sm:px-8 py-8">
+            {children}
+          </main>
           <Footer />
-        </ThemeProvider>
+        </Providers>
         {/* Toast notifications */}
         <div id="toast-root">
           {/* Toast notifications: Toaster must be rendered in a client component */}
