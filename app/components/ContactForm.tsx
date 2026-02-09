@@ -27,14 +27,14 @@ export default function ContactForm({ carId }: { carId: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <input
         type="text"
         placeholder="Your Name"
         value={name}
         onChange={e => setName(e.target.value)}
         required
-        className="input"
+        className="block w-full rounded-xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/30 transition"
       />
       <input
         type="tel"
@@ -42,18 +42,18 @@ export default function ContactForm({ carId }: { carId: string }) {
         value={phone}
         onChange={e => setPhone(e.target.value)}
         required
-        className="input"
+        className="block w-full rounded-xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/30 transition"
       />
       <textarea
         placeholder="Message"
         value={message}
         onChange={e => setMessage(e.target.value)}
-        className="textarea"
+        className="block w-full rounded-xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/30 transition min-h-[96px]"
       />
       <button
         type="submit"
         disabled={loading}
-        className="rounded-md bg-black text-white dark:bg-white dark:text-black px-4 py-2 w-full transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+        className="rounded-xl bg-primary text-primary-foreground px-5 py-2.5 w-full font-semibold shadow-md transition-colors hover:bg-foreground/90 hover:text-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 dark:focus:ring-offset-black disabled:opacity-60"
       >
         {loading ? "Sending..." : "Contact Dealer"}
       </button>

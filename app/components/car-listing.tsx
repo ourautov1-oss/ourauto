@@ -47,14 +47,14 @@ export function CarListing() {
 
   if (loading) {
     return (
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {[...Array(8)].map((_, i) => (
           <div
             key={i}
-            className="animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-800"
-            style={{ paddingBottom: '100%', aspectRatio: '4/3' }}
+            className="animate-pulse rounded-xl border border-border bg-muted shadow-md"
+            style={{ paddingBottom: '75%', aspectRatio: '4/3' }}
           >
-            <div className="h-full w-full rounded-xl bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200 dark:from-zinc-800 dark:via-zinc-700 dark:to-zinc-800" />
+            <div className="h-full w-full rounded-xl bg-gradient-to-r from-muted via-background to-muted" />
           </div>
         ))}
       </div>

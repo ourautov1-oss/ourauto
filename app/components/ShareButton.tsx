@@ -27,7 +27,7 @@ export default function ShareButton({ title, price, city, url }: Props) {
   return (
     <button
       onClick={handleShare}
-      className="rounded-md bg-black text-white dark:bg-white dark:text-black px-4 py-2 w-full transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+      className="rounded-xl bg-primary text-primary-foreground px-5 py-2.5 w-full font-semibold shadow-md transition-colors hover:bg-foreground/90 hover:text-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 dark:focus:ring-offset-black"
     >
       🔗 Share Car
     </button>
